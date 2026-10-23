@@ -1,0 +1,44 @@
+# Project configuration for the LLMOps course, filled in for you at onboarding.
+# Resources are provisioned at onboarding except the volume, which you create during the course.
+
+# Your usage policy: set it on every serverless job, endpoint and app you create.
+usage_policy_id: "e92d07b3-5725-3daf-87a0-22e6a27fd824"
+
+# Lakebase projects may be shared across environments; Unity Catalog
+# schemas remain separate. Your cohort provisions the Lakebase values below.
+
+# Development: your own schema in the dev catalog, which you manage and work in.
+dev:
+  catalog: "llmops_dev"
+  schema: "test_cauchy_student"
+  volume: "arxiv_files"
+  llm_endpoint: "course_ops.gateway.chat"
+  embedding_endpoint: "course_ops.gateway.embed"
+  warehouse_id: "74ff83d09377af17"
+  experiment_path: "/llmops/test_cauchy_student-dev"
+  # Your provisioned Lakebase project.
+  lakebase_instance: "lb-llmops-test-cauchy-student"
+
+# Acceptance: your schema in the acceptance catalog, written by your deploys; you read it.
+acc:
+  catalog: "llmops_acc"
+  schema: "test_cauchy_student"
+  volume: "arxiv_files"
+  llm_endpoint: "course_ops.gateway.chat"
+  embedding_endpoint: "course_ops.gateway.embed"
+  warehouse_id: "74ff83d09377af17"
+  experiment_path: "/llmops/test_cauchy_student-acc"
+  # Your provisioned Lakebase project for this environment.
+  lakebase_instance: "lb-llmops-test-cauchy-student"
+
+# Production: your schema in the production catalog, written by your deploys; you read it.
+prd:
+  catalog: "llmops_prd"
+  schema: "test_cauchy_student"
+  volume: "arxiv_files"
+  llm_endpoint: "course_ops.gateway.chat"
+  embedding_endpoint: "course_ops.gateway.embed"
+  warehouse_id: "74ff83d09377af17"
+  experiment_path: "/llmops/test_cauchy_student-prd"
+  # Your provisioned Lakebase project for this environment.
+  lakebase_instance: "lb-llmops-test-cauchy-student"
