@@ -1,5 +1,7 @@
 # Project configuration for the LLMOps course, filled in for you at onboarding.
 # Resources are provisioned at onboarding except the volume, which you create during the course.
+# embedding_endpoint is the serving endpoint for ai_query, AI Search and DatabricksServingEndpoint;
+# embedding_service is the AI Gateway model service for the OpenAI client (README.md).
 
 # Your usage policy: set it on every serverless job, endpoint and app you create.
 usage_policy_id: "e92d07b3-5725-3daf-87a0-22e6a27fd824"
@@ -13,9 +15,10 @@ dev:
   schema: "test_cauchy_student"
   volume: "arxiv_files"
   llm_endpoint: "course_ops.gateway.chat"
-  embedding_endpoint: "course_ops.gateway.embed"
-  warehouse_id: "74ff83d09377af17"
-  experiment_path: "/llmops/test_cauchy_student-dev"
+  embedding_endpoint: "databricks-gte-large-en"
+  embedding_service: "course_ops.gateway.embed"
+  warehouse_id: "3e262c4a7873ac47"
+  experiment_path: "/llmops/test-cauchy-student-dev"
   # Your provisioned Lakebase project.
   lakebase_instance: "lb-llmops-test-cauchy-student"
 
@@ -25,9 +28,10 @@ acc:
   schema: "test_cauchy_student"
   volume: "arxiv_files"
   llm_endpoint: "course_ops.gateway.chat"
-  embedding_endpoint: "course_ops.gateway.embed"
-  warehouse_id: "74ff83d09377af17"
-  experiment_path: "/llmops/test_cauchy_student-acc"
+  embedding_endpoint: "databricks-gte-large-en"
+  embedding_service: "course_ops.gateway.embed"
+  warehouse_id: "3e262c4a7873ac47"
+  experiment_path: "/llmops/test-cauchy-student-acc"
   # Your provisioned Lakebase project for this environment.
   lakebase_instance: "lb-llmops-test-cauchy-student"
 
@@ -37,8 +41,9 @@ prd:
   schema: "test_cauchy_student"
   volume: "arxiv_files"
   llm_endpoint: "course_ops.gateway.chat"
-  embedding_endpoint: "course_ops.gateway.embed"
-  warehouse_id: "74ff83d09377af17"
-  experiment_path: "/llmops/test_cauchy_student-prd"
+  embedding_endpoint: "databricks-gte-large-en"
+  embedding_service: "course_ops.gateway.embed"
+  warehouse_id: "3e262c4a7873ac47"
+  experiment_path: "/llmops/test-cauchy-student-prd"
   # Your provisioned Lakebase project for this environment.
   lakebase_instance: "lb-llmops-test-cauchy-student"
