@@ -15,20 +15,23 @@ on the student list.
 
 | What | Value |
 |---|---|
-| Workspace, where you sign in | [https://dbc-88df4c2c-4033.cloud.databricks.com](https://dbc-88df4c2c-4033.cloud.databricks.com) |
+| Workspace, where you sign in | [https://dbc-e81ca4d2-f6bd.cloud.databricks.com](https://dbc-e81ca4d2-f6bd.cloud.databricks.com) |
 | Your schema in development, which you manage | `llmops_dev.test_cauchy_student` |
 | Your schema in acceptance, which you read | `llmops_acc.test_cauchy_student` |
 | Your schema in production, which you read | `llmops_prd.test_cauchy_student` |
 | Suggested volume name (create during the course) | `arxiv_files`, such as `llmops_dev.test_cauchy_student.arxiv_files` |
-| SQL warehouse id | `74ff83d09377af17` |
+| SQL warehouse id | `3e262c4a7873ac47` |
 | Usage policy id | `e92d07b3-5725-3daf-87a0-22e6a27fd824` |
-| MLflow experiments | Dev: `/llmops/test_cauchy_student-dev`; acc: `/llmops/test_cauchy_student-acc`; prd: `/llmops/test_cauchy_student-prd` |
+| MLflow experiments | Dev: `/llmops/test-cauchy-student-dev`; acc: `/llmops/test-cauchy-student-acc`; prd: `/llmops/test-cauchy-student-prd` |
 | Chat model service | `course_ops.gateway.chat` |
+| Embedding serving endpoint | `databricks-gte-large-en` |
 | Embedding model service | `course_ops.gateway.embed` |
 
-Both settings name model services of the course’s AI Gateway, with a monthly budget per student.
-Chat routes to GPT-OSS-120B; embeddings route to GTE Large. Call both through the gateway
-with the `databricks-openai` package:
+## Models: which name each call takes
+
+`llm_endpoint` and `embedding_service` name model services of the course's AI Gateway, with a
+monthly budget per student. Chat routes to GPT-OSS-120B; embeddings route to GTE Large. Call them
+through the gateway with the `databricks-openai` package:
 
 ```python
 from databricks_openai import DatabricksOpenAI
@@ -47,9 +50,17 @@ The `databricks-openai` package is not included in this repo’s dependencies. T
 are available through the installed `openai` client with the workspace base URL
 `/ai-gateway/mlflow/v1` and Databricks authentication.
 
-`embedding_endpoint` is a gateway model service despite the existing field name. Generate
-vectors through its embeddings API before storing them in pgvector. It is not a managed
-Vector Search index’s `embedding_model_endpoint_name`.
+`embedding_endpoint` names the serving endpoint of the same GTE Large model, so its vectors match
+the gateway's. Pass it wherever Databricks asks for a serving endpoint: to `ai_query` in SQL, as
+an AI Search index's `embedding_model_endpoint_name`, and to `DatabricksServingEndpoint` among
+an agent's resources. For example, in a notebook:
+
+```python
+spark.sql("SELECT ai_query('databricks-gte-large-en', text) AS embedding FROM chunks")
+```
+
+Neither name works in the other's place: the gateway client refuses the serving endpoint, and
+`ai_query` refuses the model service.
 
 ## Lakebase
 
